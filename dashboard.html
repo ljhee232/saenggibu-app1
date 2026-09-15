@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>생기부 활동 저장</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Malgun Gothic",sans-serif;
+}
+
+body{
+background:#0b1f4d;
+padding:20px;
+}
+
+.phone{
+
+max-width:430px;
+margin:auto;
+background:white;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+}
+
+.header{
+
+background:#0b1f4d;
+color:white;
+padding:20px;
+display:flex;
+align-items:center;
+gap:15px;
+
+}
+
+.header img{
+
+width:60px;
+height:60px;
+background:white;
+padding:5px;
+border-radius:50%;
+
+}
+
+.header h2{
+font-size:24px;
+}
+
+.header p{
+opacity:.8;
+font-size:14px;
+}
+
+.summary{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+padding:18px;
+
+}
+
+.card{
+
+background:#f5f7fb;
+border-radius:18px;
+padding:18px;
+text-align:center;
+
+}
+
+.card h2{
+
+font-size:32px;
+color:#12327d;
+
+}
+
+.card p{
+
+margin-top:6px;
+color:#666;
+
+}
+
+.section{
+
+padding:0 18px 18px;
+
+}
+
+.section h3{
+
+color:#12327d;
+margin-bottom:12px;
+
+}
+
+.subjects{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+
+}
+
+.subject{
+
+background:#eef3ff;
+padding:16px;
+border-radius:16px;
+text-align:center;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+
+}
+
+.subject:hover{
+
+background:#dce8ff;
+transform:scale(1.03);
+
+}
+
+.subject:last-child{
+
+grid-column:1/3;
+
+}
+
+.recent{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:10px;
+margin-bottom:12px;
+
+}
+
+.recordBtn{
+
+background:#12327d;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+#activityList{
+
+margin-top:8px;
+
+}
+
+.plus{
+
+position:fixed;
+bottom:90px;
+right:35px;
+width:65px;
+height:65px;
+background:#12327d;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:42px;
+color:white;
+cursor:pointer;
+box-shadow:0 8px 20px rgba(0,0,0,.3);
+transition:.2s;
+
+}
+
+.plus:hover{
+
+transform:scale(1.08);
+
+}
+
+.bottomNav{
+
+background:white;
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:100%;
+max-width:430px;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+border-top:1px solid #ddd;
+
+}
+
+.navItem{
+
+text-align:center;
+font-size:13px;
+color:#666;
+cursor:pointer;
+
+}
+
+.navItem.active{
+
+color:#12327d;
+font-weight:bold;
+
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(10px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+
+<img src="logo.png">
+
+<div>
+
+<h2>생기부 활동 저장</h2>
+
+<p>관저고등학교</p>
+
+</div>
+
+</div>
+
+<div class="summary">
+
+<div class="card">
+
+<h2 id="totalCount">0</h2>
+
+<p>전체 활동</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="monthCount">0</h2>
+
+<p>이번 달</p>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h3>📚 과목</h3>
+
+<div class="subjects">
+
+<div class="subject">국어</div>
+
+<div class="subject">영어</div>
+
+<div class="subject">수학</div>
+
+<div class="subject">과학</div>
+
+<div class="subject">사회</div>
+
+<div class="subject">한국사</div>
+
+<div class="subject">기타</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="recent">
+
+<h3>📒 최근 활동</h3>
+
+<button
+class="recordBtn"
+onclick="location.href='records.html'">
+
+기록 확인
+
+</button>
+
+</div>
+
+<div id="activityList"></div>
+
+</div>
+
+</div>
+
+<div
+class="plus"
+onclick="location.href='add.html'">
+
++
+
+</div>
+
+<div class="bottomNav">
+
+<div class="navItem active"
+onclick="location.href='dashboard.html'">
+
+🏠<br>홈
+
+</div>
+
+<div class="navItem"
+onclick="location.href='add.html'">
+
+➕<br>추가
+
+</div>
+
+<div class="navItem"
+onclick="location.href='records.html'">
+
+📋<br>기록
+
+</div>
+
+<div class="navItem"
+onclick="location.href='summary.html'">
+
+📊<br>요약
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기록 확인</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Malgun Gothic",sans-serif;
+}
+
+body{
+background:#0b1f4d;
+padding:20px;
+padding-bottom:90px;
+}
+
+.phone{
+max-width:430px;
+margin:auto;
+background:white;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.header{
+background:#0b1f4d;
+color:white;
+padding:20px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.header img{
+width:55px;
+height:55px;
+background:white;
+border-radius:50%;
+padding:5px;
+}
+
+.header p{
+opacity:.8;
+font-size:14px;
+}
+
+.search{
+padding:18px;
+}
+
+.search input{
+width:100%;
+padding:13px;
+border-radius:12px;
+border:1px solid #ccc;
+font-size:15px;
+}
+
+.filterWrap{
+padding:0 18px 18px;
+}
+
+.filterWrap h3{
+color:#12327d;
+margin-bottom:12px;
+}
+
+.filters{
+display:flex;
+gap:8px;
+overflow:auto;
+padding-bottom:5px;
+}
+
+.filters::-webkit-scrollbar{
+display:none;
+}
+
+.filter-btn{
+border:none;
+padding:8px 14px;
+border-radius:20px;
+background:#eef3ff;
+color:#12327d;
+font-weight:bold;
+cursor:pointer;
+white-space:nowrap;
+transition:.2s;
+}
+
+.filter-btn.active{
+background:#12327d;
+color:white;
+}
+
+#recordList{
+padding:18px;
+}
+
+.record{
+background:#fff;
+border-radius:18px;
+padding:16px;
+margin-bottom:16px;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.record h3{
+margin:8px 0;
+color:#12327d;
+}
+
+.record small{
+color:#666;
+}
+
+.record p{
+margin-top:10px;
+line-height:1.5;
+}
+
+.btns{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
+.btns button{
+flex:1;
+border:none;
+padding:11px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.edit{
+background:#12327d;
+color:white;
+}
+
+.delete{
+background:#d32f2f;
+color:white;
+}
+
+.bottomNav{
+background:white;
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:100%;
+max-width:430px;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+border-top:1px solid #ddd;
+}
+
+.navItem{
+text-align:center;
+font-size:13px;
+color:#666;
+cursor:pointer;
+}
+
+.navItem.active{
+color:#12327d;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+
+<img src="logo.png">
+
+<div>
+<h2>기록 확인</h2>
+<p>생기부 활동 저장</p>
+</div>
+
+</div>
+
+<div class="search">
+
+<input
+id="searchInput"
+placeholder="과목 또는 활동 제목 검색">
+
+</div>
+
+<div class="filterWrap">
+
+<h3>과목 필터</h3>
+
+<div class="filters">
+
+<button
+class="filter-btn active"
+data-subject="전체"
+onclick="setFilter('전체')">
+전체
+</button>
+
+<button
+class="filter-btn"
+data-subject="국어"
+onclick="setFilter('국어')">
+국어
+</button>
+
+<button
+class="filter-btn"
+data-subject="영어"
+onclick="setFilter('영어')">
+영어
+</button>
+
+<button
+class="filter-btn"
+data-subject="수학"
+onclick="setFilter('수학')">
+수학
+</button>
+
+<button
+class="filter-btn"
+data-subject="과학"
+onclick="setFilter('과학')">
+과학
+</button>
+
+<button
+class="filter-btn"
+data-subject="사회"
+onclick="setFilter('사회')">
+사회
+</button>
+
+<button
+class="filter-btn"
+data-subject="한국사"
+onclick="setFilter('한국사')">
+한국사
+</button>
+
+<button
+class="filter-btn"
+data-subject="기타"
+onclick="setFilter('기타')">
+기타
+</button>
+
+</div>
+
+</div>
+
+<div id="recordList"></div>
+
+</div>
+
+<div class="bottomNav">
+
+<div
+class="navItem"
+onclick="location.href='dashboard.html'">
+🏠<br>홈
+</div>
+
+<div
+class="navItem"
+onclick="location.href='add.html'">
+➕<br>추가
+</div>
+
+<div
+class="navItem active">
+📋<br>기록
+</div>
+
+<div
+class="navItem"
+onclick="location.href='summary.html'">
+📊<br>요약
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

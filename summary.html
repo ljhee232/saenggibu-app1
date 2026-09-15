@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>활동 요약</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Malgun Gothic",sans-serif;
+}
+
+body{
+background:#0b1f4d;
+padding:20px;
+padding-bottom:90px;
+}
+
+.phone{
+max-width:430px;
+margin:auto;
+background:white;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.header{
+background:#0b1f4d;
+color:white;
+padding:20px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.header img{
+width:55px;
+height:55px;
+background:white;
+border-radius:50%;
+padding:5px;
+}
+
+.content{
+padding:18px;
+}
+
+.card{
+background:#f5f7fb;
+border-radius:18px;
+padding:18px;
+margin-bottom:15px;
+}
+
+.card h3{
+color:#12327d;
+margin-bottom:12px;
+}
+
+.bigNumber{
+font-size:36px;
+font-weight:bold;
+color:#12327d;
+}
+
+.subjectItem{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid #eee;
+}
+
+.subjectItem:last-child{
+border-bottom:none;
+}
+
+.bar{
+height:10px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+margin-top:6px;
+}
+
+.fill{
+height:100%;
+background:#12327d;
+}
+
+textarea{
+width:100%;
+height:160px;
+padding:12px;
+border-radius:12px;
+border:1px solid #ccc;
+resize:none;
+font-size:14px;
+}
+
+.button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.pdf{
+background:#12327d;
+color:white;
+}
+
+.print{
+background:#eef3ff;
+color:#12327d;
+}
+
+.bottomNav{
+background:white;
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:100%;
+max-width:430px;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+border-top:1px solid #ddd;
+}
+
+.navItem{
+text-align:center;
+font-size:13px;
+color:#666;
+cursor:pointer;
+}
+
+.navItem.active{
+color:#12327d;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+
+<img src="logo.png">
+
+<div>
+
+<h2>활동 요약</h2>
+
+<p>생기부 제출용 정리</p>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<div class="card">
+
+<h3>📊 전체 활동</h3>
+
+<div class="bigNumber" id="totalSummary">0</div>
+
+<p>지금까지 저장한 활동 수</p>
+
+</div>
+
+<div class="card">
+
+<h3>📅 이번 달 활동</h3>
+
+<div class="bigNumber" id="monthSummary">0</div>
+
+<p>이번 달에 기록한 활동</p>
+
+</div>
+
+<div class="card">
+
+<h3>📚 과목별 활동</h3>
+
+<div id="subjectSummary"></div>
+
+</div>
+
+<div class="card">
+
+<h3>📝 생기부 제출용 요약</h3>
+
+<textarea id="summaryText" readonly></textarea>
+
+</div>
+
+<button class="button pdf" onclick="window.print()">
+
+📄 PDF로 저장
+
+</button>
+
+<button class="button print" onclick="window.print()">
+
+🖨️ 인쇄하기
+
+</button>
+
+</div>
+
+</div>
+
+<div class="bottomNav">
+
+<div class="navItem" onclick="location.href='dashboard.html'">
+🏠<br>홈
+</div>
+
+<div class="navItem" onclick="location.href='add.html'">
+➕<br>추가
+</div>
+
+<div class="navItem" onclick="location.href='records.html'">
+📋<br>기록
+</div>
+
+<div class="navItem active">
+📊<br>요약
+</div>
+
+</div>
+
+<script>
+
+const activities=JSON.parse(localStorage.getItem("activities"))||[];
+
+document.getElementById("totalSummary").textContent=activities.length;
+
+const today=new Date();
+
+const monthCount=activities.filter(a=>{
+
+if(!a.date)return false;
+
+const d=new Date(a.date);
+
+return d.getFullYear()==today.getFullYear()
+&&d.getMonth()==today.getMonth();
+
+}).length;
+
+document.getElementById("monthSummary").textContent=monthCount;
+
+const subjects=["국어","영어","수학","과학","사회","한국사","기타"];
+
+const box=document.getElementById("subjectSummary");
+
+let summary="";
+
+subjects.forEach(subject=>{
+
+const count=activities.filter(a=>a.subject===subject).length;
+
+const percent=activities.length===0?0:Math.round(count/activities.length*100);
+
+box.innerHTML+=`
+
+<div class="subjectItem">
+
+<div style="width:100%;">
+
+<div style="display:flex;justify-content:space-between;">
+<span>${subject}</span>
+<span>${count}개</span>
+</div>
+
+<div class="bar">
+<div class="fill" style="width:${percent}%"></div>
+</div>
+
+</div>
+
+</div>
+
+`;
+
+if(count>0){
+
+summary+=`${subject} 활동 ${count}회 참여.\n`;
+
+}
+
+});
+
+document.getElementById("summaryText").value=
+`총 ${activities.length}개의 활동을 기록했습니다.
+
+${summary}
+
+이 내용을 바탕으로 생기부 제출용 문장을 작성할 수 있습니다.`;
+
+</script>
+
+</body>
+</html>

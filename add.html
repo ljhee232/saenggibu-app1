@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>활동 추가</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Malgun Gothic",sans-serif;
+}
+
+body{
+background:#0b1f4d;
+padding:20px;
+}
+
+.phone{
+max-width:430px;
+margin:auto;
+background:white;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.header{
+background:#0b1f4d;
+color:white;
+padding:20px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.header img{
+width:55px;
+height:55px;
+background:white;
+border-radius:50%;
+padding:5px;
+}
+
+.content{
+padding:20px;
+}
+
+label{
+display:block;
+margin-top:14px;
+margin-bottom:6px;
+font-weight:bold;
+color:#12327d;
+}
+
+select,
+input,
+textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:15px;
+}
+
+textarea{
+height:100px;
+resize:none;
+}
+
+.fileBox{
+margin-top:10px;
+border:2px dashed #b0b8c5;
+border-radius:12px;
+padding:16px;
+text-align:center;
+}
+
+#preview{
+display:none;
+width:100%;
+margin-top:12px;
+border-radius:12px;
+}
+
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:18px;
+}
+
+.save{
+background:#12327d;
+color:white;
+}
+
+.back{
+background:#eef3ff;
+color:#12327d;
+}
+
+.bottomNav{
+
+background:white;
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:100%;
+max-width:430px;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+border-top:1px solid #ddd;
+
+}
+
+.navItem{
+
+text-align:center;
+font-size:13px;
+color:#666;
+cursor:pointer;
+
+}
+
+.navItem.active{
+
+color:#12327d;
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+
+<img src="logo.png">
+
+<div>
+
+<h2>활동 추가</h2>
+
+<p>관저고등학교</p>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<label>과목</label>
+
+<select id="subject">
+
+<option>국어</option>
+<option>영어</option>
+<option>수학</option>
+<option>과학</option>
+<option>사회</option>
+<option>한국사</option>
+<option>기타</option>
+
+</select>
+
+<label>활동 제목</label>
+
+<input
+id="title"
+placeholder="예) 한국사 카드뉴스 제작">
+
+<label>날짜</label>
+
+<input
+id="date"
+type="date">
+
+<label>맡은 역할</label>
+
+<input
+id="role"
+placeholder="예) 모둠장">
+
+<label>활동 내용</label>
+
+<textarea
+id="content"
+placeholder="무슨 활동을 했는지 자세하게 작성"></textarea>
+
+<label>배운 점</label>
+
+<textarea
+id="learned"
+placeholder="생기부에 활용할 수 있도록 배운 점 작성"></textarea>
+
+<label>활동 사진</label>
+
+<div class="fileBox">
+
+<input
+type="file"
+id="photo"
+accept="image/*">
+
+<img id="preview">
+
+</div>
+
+<button
+class="btn save"
+onclick="saveActivity()">
+
+💾 저장하기
+
+</button>
+
+<button
+class="btn back"
+onclick="location.href='dashboard.html'">
+
+← 메인으로 돌아가기
+
+</button>
+
+</div>
+
+</div>
+
+<div class="bottomNav">
+
+<div
+class="navItem"
+onclick="location.href='dashboard.html'">
+
+🏠<br>홈
+
+</div>
+
+<div
+class="navItem active">
+
+➕<br>추가
+
+</div>
+
+<div
+class="navItem"
+onclick="location.href='records.html'">
+
+📋<br>기록
+
+</div>
+
+<div
+class="navItem"
+onclick="location.href='summary.html'">
+
+📊<br>요약
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+
+// 오늘 날짜 자동 입력
+const dateInput=document.getElementById("date");
+
+if(dateInput&&!dateInput.value){
+
+const today=new Date();
+
+const yyyy=today.getFullYear();
+
+const mm=String(today.getMonth()+1).padStart(2,"0");
+
+const dd=String(today.getDate()).padStart(2,"0");
+
+dateInput.value=`${yyyy}-${mm}-${dd}`;
+
+}
+
+// 사진 미리보기
+const photo=document.getElementById("photo");
+
+const preview=document.getElementById("preview");
+
+photo.addEventListener("change",function(){
+
+const file=this.files[0];
+
+if(!file)return;
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+preview.src=e.target.result;
+
+preview.style.display="block";
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+// 수정 데이터 자동 채우기
+fillEditData();
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>생기부 활동 저장</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#12327d">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Malgun Gothic",sans-serif;
+}
+
+body{
+background:linear-gradient(160deg,#081c45,#12327d);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.card{
+background:white;
+width:100%;
+max-width:420px;
+border-radius:28px;
+padding:35px 28px;
+box-shadow:0 20px 45px rgba(0,0,0,.35);
+text-align:center;
+animation:fadeIn .5s ease;
+}
+
+.logo{
+width:110px;
+height:110px;
+margin-bottom:20px;
+}
+
+h1{
+color:#12327d;
+font-size:30px;
+margin-bottom:8px;
+}
+
+.sub{
+color:#666;
+margin-bottom:28px;
+font-size:15px;
+}
+
+label{
+display:block;
+text-align:left;
+font-weight:bold;
+color:#12327d;
+margin-bottom:6px;
+margin-top:14px;
+}
+
+input{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #ccc;
+font-size:15px;
+outline:none;
+transition:.2s;
+}
+
+input:focus{
+border-color:#12327d;
+box-shadow:0 0 0 3px rgba(18,50,125,.15);
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:24px;
+border:none;
+border-radius:12px;
+background:#12327d;
+color:white;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+background:#0b235a;
+transform:translateY(-2px);
+}
+
+.info{
+margin-top:18px;
+font-size:13px;
+color:#888;
+line-height:1.5;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<img src="logo.png" class="logo" alt="관저고 로고">
+
+<h1>생기부 활동 저장</h1>
+
+<p class="sub">관저고등학교 활동 기록 서비스</p>
+
+<label>학번</label>
+
+<input
+id="studentId"
+placeholder="예) 1101">
+
+<label>이름</label>
+
+<input
+id="name"
+placeholder="이름 입력">
+
+<label>비밀번호</label>
+
+<input
+id="password"
+type="password"
+placeholder="비밀번호 입력">
+
+<button onclick="login()">
+로그인
+</button>
+
+<div class="info">
+로그인 정보는 현재 기기에만 저장됩니다.
+</div>
+
+</div>
+
+<script src="app.js"></script>
+<script>
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
+</body>
+</html>
